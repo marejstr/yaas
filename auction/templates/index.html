@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans "Yet another auction site" %}</h1>
+
+<form action="{% url 'auction:search' %}" method="get">
+    <input name="term" type="text" placeholder="Search" value="{{ request.GET.term }}">
+    <button type="submit">{% trans "Search" %}</button>
+</form>
+
+{% if user.is_superuser %}
+admin:
+<br>
+<a href="{% url 'auction:banned' %}">View banned auctions</a>
+<a href="{% url 'auction:resolve' %}">Resolve auctions</a>
+{% endif %}
+
+<p>Auctions:</p>
+
+<ul>
+    {% for auction in object_list %}
+    <li><a href="{%  url 'auction:detail' auction.id %}">{{ auction.title }}</a> </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

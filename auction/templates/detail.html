@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<br>
+<h1> {% trans "Title:" %} {{ auction.title }} </h1>
+<h2> {% trans "Seller:" %} {{ auction.seller }}</h2>
+<br>
+Description:
+{{ auction.description }}
+<br>
+Minimum price: {{ auction.minimum_price }}
+<br>
+Deadline: {{ auction.deadline_date }}
+<br>
+<a href="{% url 'auction:edit' auction.pk %}">Edit auction</a>
+
+<br>
+{% if auction.state == 1 %}
+<h3>This auction is banned</h3>
+{%  else %}
+{% if user.is_superuser %}
+<a href="{% url 'auction:ban' auction.pk %}">Ban auction</a>
+{% endif %}
+{% endif %}
+
+<form action="{% url 'auction:bid' auction.pk %} " method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="auction_version" value="{{ auction.version }}">
+    <button type="submit">Bid</button>
+</form>
+<h2>Bids:</h2>
+{% for bid in bids %}
+Bidder: {{ bid.bidder }}
+<br>
+amount: {{ bid.bid_amount }}
+<br>
+<br>
+{% endfor %}
+<br>
+{% endblock content %}

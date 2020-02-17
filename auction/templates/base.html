@@ -1,0 +1,52 @@
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+{% load i18n %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        YAAS
+    </title>
+</head>
+
+<body>
+    <ul>
+        <li><a href="{% url 'index' %}">Home</a></li>
+        {% if user.is_authenticated %}
+        <li>Logged in as: {{ user.get_username }}</li>
+        <li><a href="{% url 'auction:create' %}">Create auction</a></li>
+        <li><a href="{% url 'user:editprofile' %}">Edit profile</a></li>
+        <li><a href="{% url 'signout' %}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'signup' %}">Register</a></li>
+        <li><a href="{% url 'signin' %}">Login</a></li>
+        {% endif %}
+    </ul>
+
+
+    {% trans "Currency:" %}
+    <ul>
+        <li><a href="/changeCurrency/EUR">Euro</a></li>
+        <li><a href="/changeCurrency/USD">Dollar</a></li>
+    </ul>
+
+    {% trans "Language:" %}
+    <ul>
+        <li><a href="/changeLanguage/sv">Swedish</a></li>
+        <li><a href="/changeLanguage/en">English</a></li>
+    </ul>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Are you sure you want to create this auction</h2>
+<br>
+{% for field in form %}
+{{ field.name }}: {{ field.value }}
+<br>
+{% endfor %}
+
+<form action="{% url 'auction:confirm' %}" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    {{ field.as_hidden }}
+    {% endfor %}
+    <input type="submit" name="create" value="Create auction">
+    <input type="submit" name="cancel" value="Cancel">
+</form>
+{% endblock content %}
