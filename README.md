@@ -1,1 +1,1 @@
-Backend of a auction web application programmed with Django
+Back end of an auction web application programmed with Django
